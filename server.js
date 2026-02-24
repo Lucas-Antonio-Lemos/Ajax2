@@ -6,6 +6,37 @@ app.use(express.static('.'))// Dentro da pasta atual no qual o arquivo server.js
 app.use(body.urlencoded({extended:true})) //se vier através de um submit de formulario os dados serão lidos s transformados em objeto
 app.use(body.json()) //se vier  json dentro do body da req será transformado em objeto.
 
+const multer=require('multer')
+/* Multer é um middleware do Node.js usado junto com Express para lidar com upload de arquivos*/
+
+
+let num =1
+const storage=multer.diskStorage({
+    
+    destination:function(req,file,callback){
+        callback(null,'./upload')
+
+    },
+    filename: function(req,file,callback){
+        callback(null,`${num++}_${file.originalname}`)
+    }
+    
+})
+
+const upload = multer({storage}).single('arquivo')
+
+app.post('/upload',(req,res)=>{ // o que vier vai ser interceptado pelo middleware ... 
+    upload(req,res,erro=>{
+        if(erro){
+            return res.end(('Ocorreu um erro'))
+        }
+
+        res.end('Concluído com sucesso')
+    })
+})
+
+
+
 app.listen(8080,()=>console.log('Executando !!'))
 
 
