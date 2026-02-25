@@ -9,7 +9,7 @@ app.use(body.json()) //se vier  json dentro do body da req será transformado em
 const multer=require('multer')
 /* Multer é um middleware do Node.js usado junto com Express para lidar com upload de arquivos*/
 
-
+/*Configurando multer e armazenamento */ 
 let num =1
 const storage=multer.diskStorage({
     
@@ -34,7 +34,32 @@ app.post('/upload',(req,res)=>{ // o que vier vai ser interceptado pelo middlewa
         res.end('Concluído com sucesso')
     })
 })
+/*Fim da configuração do multer e armazenamento */ 
 
+
+/* Função que trata (metodo post) a  submissão de formulário a partir do método fetch*/ 
+//action = formulario ? 
+
+app.post('/formulario',(req,res)=>{
+    res.send({
+        ...req.body, //tudo o que veio no body
+        id:1
+    })
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+/*Fim da função que trata (metodo post) a  submissão de formulário a partir do método fetch*/ 
 
 
 app.listen(8080,()=>console.log('Executando !!'))

@@ -30,5 +30,36 @@
     <div id="resultado"></div>
     <script>
         // ...
+        document.usuarioForm.onsubmit= async e=>{
+            e.preventDefault()
+            const form=e.target
+            const data=new FormData(form)
+
+            const opt={
+                method:form.method,
+                body:new URLSearchParams(data)
+                //form.action = url 
+            }
+            // fetch(form.action,opt) 
+            // .then(resp=>resp.json())
+            // .then(resp=>{
+            //     const resultado=document.getElementById('resultado')
+            //     resultado.innerHTML=JSON.stringify(resp)
+            // })
+            // .catch(e=>{
+            //     resultado.innerHTML='Error...'
+
+            // })
+const resultado=document.getElementById('resultado')
+try{
+    const resp=await fetch('/formulario2',opt)
+    const json= await resp.json()
+    resultado.innerHTML=JSON.stringify(json)
+}catch(e){
+    resultado.innerHTML=e
+}
+
+
+        }
     </script>
 </body>

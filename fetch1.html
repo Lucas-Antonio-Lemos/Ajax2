@@ -11,6 +11,36 @@
     <h1>Estados</h1>
 
     <script>
-        // ...
+    const url='dados/estados.json'
+    fetch(url)
+    .then(estados=>estados.json())
+    .then(estados=>{
+        const itens=estados.map(estado=>`<li>${estado.nome}</li>`)
+        document.body.insertAdjacentHTML('beforeend',`<ul> ${itens.join('')}</ul>`)
+        console.log(itens[20])
+        console.log(estados[20])
+        console.log(estados)
+        
+
+
+    }) 
+
     </script>
 </body>
+
+
+<!--
+        //- O fetch faz uma requisição HTTP para buscar o arquivo. Diferente do XMLHttpRequest, ele retorna uma Promise.
+
+        const url='dados/estados.json'
+        fetch(url)
+        .then(resp=>resp.json())//- O primeiro .then transforma a resposta em objeto JavaScript, interpretando o conteúdo JSON.
+
+        .then(estados=>{
+            const itens=estados.map(estados=>`<li>${estados.nome}</li>`)
+
+            document.body.insertAdjacentHTML('beforeend',`<ul>${itens.join('')}</ul>`)
+            console.log(itens[0])
+
+}) --> 
+        

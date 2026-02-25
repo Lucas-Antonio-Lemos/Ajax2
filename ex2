@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload com Barra de Progresso</title>
+  <style>
+    .barra-container {
+      width: 100%;
+      height: 25px;
+      background-color: #ddd;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .barra {
+      height: 100%;
+      width: 0%;
+      background-color: #4caf50; /* verde */
+      transition: width 0.2s ease;
+      text-align: center;
+      color: white;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h2>Upload de Arquivo</h2>
+  <form>
+    <input type="file" name="arquivo">
+  </form>
+
+  <!-- Barra de progresso -->
+  <div class="barra-container">
+    <div class="barra">0%</div>
+  </div>
+
+  <script>
+    // Função AJAX para upload com progresso
+    function ajaxUpload(config){
+      const xhr = new XMLHttpRequest()
+
+      if(xhr.upload){
+        xhr.upload.onprogress = e => {
+          const atual = e.loaded
+          const total = e.total
+          const percentual = Math.floor(atual / total * 100)
+          config.progresso({atual, total, percentual})
+        }
+      }
+
+      xhr.open('post', config.url, true)
+      xhr.send(config.formData)
+    }
+
+    // Captura do arquivo no input
+    document.querySelector('input[type=file]').onchange = e => {
+      const formData = new FormData()
+      formData.append(e.target.name, e.target.files[0])
+
+      ajaxUpload({
+        url: '/upload', // rota do servidor
+        formData,
+        progresso(dados){
+          const barra = document.querySelector('.barra')
+          barra.style.width = dados.percentual + '%'
+          barra.textContent = dados.percentual + '%'
+        }
+      })
+    }
+  </script>
+</body>
+</html>
