@@ -14,6 +14,61 @@
     <div id="post"></div>
 
     <script>
-        // ...
+        function exibirResultado(id,dados){
+            const texto=JSON.stringify(dados)
+            document.getElementById(id).innerHTML=texto
+
+        }
+
+        
+
+
+     // axios('parOuImpar',{ GET ... PASSANDO PARAMETROS COMO OBJETO
+        //     params:{
+        //         numero :5
+        //     }
+        // })
+        // .then(resp=>exibirResultado('get',resp.data))
+ 
+ 
+   
+        axios('parOuImpar?numero=2') //axios.get
+        .then(resp=>exibirResultado('get',resp.data))
+
+        axios.post('formulario',{//POST... 
+            nome:'Lucas Lemos',
+            idade:33
+        }).then(resp=>exibirResultado('post',resp.data))
+
     </script>
 </body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

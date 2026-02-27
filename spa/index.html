@@ -25,6 +25,33 @@
     </nav>
     <div class="pagina"></div>
     <script>
-        // ...
+        function navegar(url,seletor,push=true){
+            if(!url || !seletor) return 
+            const elemento=document.querySelector(seletor)
+            fetch(url)
+            .then(resp=>resp.text())
+            .then(html=>{
+                elemento.innerHTML=html
+                if(push){
+                    history.pushState({seletor},null,url)
+                }
+
+            })
+        }
+        document.querySelectorAll('[wm-link]').forEach(link=>{
+            const url=link.attributes['wm-link'].value
+            const seletorDistino=link.attributes['wm-destino'].value
+          
+            link.onclick=e=>{
+                e.preventDefault()
+                navegar(url,seletorDistino)
+            }
+         })
+window.onpopstate=e=>{
+    if(e.state){
+        navegar(window.location.href,e.state.seletor,false)
+    }
+}
+
     </script>
 </body>

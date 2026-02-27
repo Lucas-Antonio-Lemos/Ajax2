@@ -38,7 +38,10 @@ app.post('/upload',(req,res)=>{ // o que vier vai ser interceptado pelo middlewa
 
 
 /* Função que trata (metodo post) a  submissão de formulário a partir do método fetch*/ 
-//action = formulario ? 
+//- Recebe dados enviados no corpo da requisição (req.body).
+//- Retorna esses mesmos dados, mas acrescenta um campo id:1.
+
+
 
 app.post('/formulario',(req,res)=>{
     res.send({
@@ -47,22 +50,42 @@ app.post('/formulario',(req,res)=>{
     })
 
 })
-
-
-
-
-
-
-
-
-
-
-
-
 /*Fim da função que trata (metodo post) a  submissão de formulário a partir do método fetch*/ 
 
+//
+
+app.get('/parOuImpar',(req,res)=>{
+    //req.body
+    //req.params=/parOuImpar/: = localhost:8080/parOuImpar/2
+    //req.query=/parOuImpar/: = localhost:8080/parOuImpar?numero:1
+
+    /*
+    - Lê o parâmetro numero da query string (req.query.numero).
+- Converte para inteiro e verifica se é par (% 2 === 0).
+- Retorna um objeto com {resultado:"par"} ou {resultado:"impar"}.
+*/
+    const par=parseInt(req.query.numero) % 2 ===0 
+    res.send({
+        
+        resultado:par ? 'par' : 'impar'
+    })
+
+})
 
 app.listen(8080,()=>console.log('Executando !!'))
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     

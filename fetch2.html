@@ -29,8 +29,78 @@
     </form>
     <div id="resultado"></div>
     <script>
-        // ...
-        document.usuarioForm.onsubmit= async e=>{
+
+        document.usuarioForm.onsubmit = e => {
+            e.preventDefault()
+
+            const form = e.target
+
+            const data = new FormData(form) //- O FormData percorre todos os campos do formulário (input, select, textarea, etc.) e coleta seus valores automaticamente.
+            /*Principais métodos:
+            - data.get('campo') → retorna o valor do campo com name="campo".
+        - data.set('campo', 'valor') → define ou substitui o valor de um campo.
+        - data.append('campo', 'valor') → adiciona um novo valor (útil para campos múltiplos).
+        - data.has('campo') → verifica se existe um campo com esse nome.
+        - data.entries() → retorna todos os pares chave/valor (pode ser usado com for...of).
+        */
+            console.log(data)
+            console.log(data.get('nome'))
+            console.log(data.get('sobrenome'))
+
+            // const opt={
+            //     method:form.method,
+            //     body: new URLSearchParams(data)
+            // }
+
+            const resultado = document.getElementById('resultado')
+            fetch('/formulario22',
+                {
+                    method: form.method,
+                    body: new URLSearchParams(data) //- URLSearchParams transforma esse FormData em uma string no formato query string (chave=valor&chave2=valor2).
+
+                }
+            )
+                .then(resp => resp.json())
+                .then(resp => {
+                    resultado.innerHTML = JSON.stringify(resp)
+                })
+                .catch(e => {
+                    resultado.innerHTML = 'Error...'
+
+                })
+
+
+
+
+
+
+
+        }
+
+
+    </script>
+
+    <!--
+
+    CASO USE ASYNC AWAIT ... 
+ const resultado=document.getElementById('resultado')
+try{
+ const resp=await fetch('/formulario2',opt)
+  const json= await resp.json()   
+  resultado.innerHTML=JSON.stringify(json)
+}catch(e){
+  resultado.innerHTML=e
+}
+
+-->
+
+
+
+
+
+    <!--
+
+     document.usuarioForm.onsubmit= async e=>{
             e.preventDefault()
             const form=e.target
             const data=new FormData(form)
@@ -38,28 +108,24 @@
             const opt={
                 method:form.method,
                 body:new URLSearchParams(data)
-                //form.action = url 
+              
             }
-            // fetch(form.action,opt) 
-            // .then(resp=>resp.json())
-            // .then(resp=>{
-            //     const resultado=document.getElementById('resultado')
-            //     resultado.innerHTML=JSON.stringify(resp)
-            // })
-            // .catch(e=>{
-            //     resultado.innerHTML='Error...'
+            fetch(form.action,opt) 
+            .then(resp=>resp.json())
+            .then(resp=>{
+                const resultado=document.getElementById('resultado')
+                resultado.innerHTML=JSON.stringify(resp)
+            })
+            .catch(e=>{
+                resultado.innerHTML='Error...'
 
-            // })
-const resultado=document.getElementById('resultado')
-try{
-    const resp=await fetch('/formulario2',opt)
-    const json= await resp.json()
-    resultado.innerHTML=JSON.stringify(json)
-}catch(e){
-    resultado.innerHTML=e
-}
+            })
 
 
         }
-    </script>
+
+-->
+
+
+
 </body>
